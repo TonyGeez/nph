@@ -22,7 +22,7 @@
   ],
   "author": "Antoine R. <TonyGeez>",
   "license": "MIT",
-  "homepage": "https://github.com/TonyGeez/nph#readme"
+  "homepage": "https://github.com/TonyGeez/nph#readme",
   "dependencies": {
     "commander": "^11.1.0",
     "semver": "^7.7.3"
