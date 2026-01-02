@@ -7,7 +7,7 @@
 Install nph globally using npm:
 
 ```bash
-npm install -g nph
+npm install -g @tonygeez/nph
 ```
 
 ## Overview
