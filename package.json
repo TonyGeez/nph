@@ -7,9 +7,6 @@
   "bin": {
     "nph": "./bin/nph.js"
   },
-  "scripts": {
-    "install": "npm install -g ."
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TonyGeez/nph.git"
