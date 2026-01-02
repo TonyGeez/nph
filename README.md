@@ -1,142 +1,151 @@
-# nph - Node Package Helper
+# nph
 
-A CLI tool to manage Node.js dependencies with ease.
+**Node Package Helper** - A CLI tool for managing Node.js dependencies with ease.
 
 ## Installation
 
-Install globally via npm:
+Install nph globally using npm:
 
 ```bash
 npm install -g nph
 ```
 
-## Features
+## Overview
 
-- **Dependency Verification**: Check for invalid package names and versions
-- **Deprecated Packages**: Find deprecated packages and code patterns
-- **Smart Upgrades**: Safely upgrade dependencies with peer conflict detection
-- **Node Scripts**: Straightforward listing of scripts and add, edit, and remove npm scripts faster
+nph provides a set of commands to streamline your Node.js project maintenance:
 
-## Usage
+- **Dependency Verification**
+Check for invalid package names and versions and fix issue automatically.
 
-### Scripts Management
+- **Deprecated Packages** 
+Find deprecated packages and code patterns
 
-#### List all scripts
+- **Smart Upgrades**
+Safely upgrade dependencies with peer conflict detection
+
+- **Node Scripts**
+Straightforward listing of scripts and add, edit, and remove npm scripts faster
+
+## Commands
+### `nph scripts`
 ```bash
+# Display all npm scripts from package.json in a formatted list.
+
 nph scripts
+
+═══════════════════════════════════════════════════════════════
+║  Print Script CLI                                            ║
+═══════════════════════════════════════════════════════════════
+
+▸ build    → webpack --mode production
+▸ dev      → webpack serve --mode development
+▸ test     → jest
+▸ lint     → eslint src/
+
+---
+
+# Interactively add a new script to package.json.
+nph script add 
+
+1. Enter script name (e.g., `npm run COMMAND`)
+2. Enter command to execute (e.g., `node ./index.js`)
+3. Confirm addition
+
+---
+
+# Interactively remove one or more scripts from package.json.
+nph script rm
+
+1. Shows numbered list of all scripts
+2. Enter script number(s) to remove (e.g., `3` or `3,4,7`)
+3. Confirm removal
+
+
+---
+
+# Interactively edit an existing script's name or command.
+nph script edit
+
+1. Shows numbered list of all scripts
+2. Enter script number to edit
+3. Enter new name (defaults to current)
+4. Enter new command (defaults to current)
+5. Confirm update
 ```
 
-#### Add a new script
+### `nph verif`
 ```bash
-nph add
-```
-Follow the interactive prompts to add a new script to your package.json.
-
-#### Edit an existing script
-```bash
-nph edit
-```
-Select a script from the list to modify its name or command.
-
-#### Remove scripts
-```bash
-nph remove
-```
-Select one or more scripts to remove from your package.json.
-
-### Dependency Management
-
-#### Verify dependencies
-```bash
+# Verify all dependencies exist and have valid versions.
 nph dep
+
+- `--fix-all`: Fix version mismatches and suggest package name corrections
+- `--fix-version`: Only fix version mismatches
+- `--fix-name`: Only fix package name typos
+
+═══════════════════════════════════════════════════════════════
+║  Dependency Verifier                                         ║
+═══════════════════════════════════════════════════════════════
+
+▸ Checking 42 dependencies...
+
+✔ lodash@^4.17.21
+✔ express@^4.18.2
+✖ nonexistent-pkg@^1.0.0
+  ▸ This package does not exist
+  ▸ Did you mean: existing-pkg
 ```
-Checks all dependencies for:
-- Invalid package names (with suggestions)
-- Non-existent versions (with closest available versions)
 
-Options:
-- `--fix-all` - Fix all issues automatically
-- `--fix-version` - Fix version issues only
-- `--fix-name` - Fix package name issues only
-
-#### Check for deprecations
+### `nph dep`
 ```bash
-nph deprecations
+# Scan for deprecated npm packages and deprecated code patterns using ESLint.
+nph dep
+
+- `--json`: Output results as JSON
+- `--fix`: (Note: Manual review required for deprecations)
+
+═══════════════════════════════════════════════════════════════
+║  Deprecated Code Analyzer                                    ║
+═══════════════════════════════════════════════════════════════
+
+▸ Scanning for deprecated patterns...
+
+Deprecated packages:
+
+▸ request
+  Reason: request has been deprecated
+
+Deprecated code patterns:
+
+▸ /src/index.js:15:23
+  Issue: 'os.tmpDir()' is deprecated since v7.0.0
 ```
-Scans for:
-- Deprecated npm packages
-- Deprecated code patterns in your source
+---
 
-Options:
-- `--json` - Output results in JSON format
-- `--fix` - Note: Manual review required for deprecations
-
-#### Upgrade dependencies
+### `nph upgrade`
 ```bash
+# Analyze and safely upgrade dependencies to their latest compatible versions.
 nph upgrade
-```
-Analyzes and upgrades dependencies safely:
-- Checks for latest compatible versions
-- Detects peer dependency conflicts
-- Shows detailed upgrade information
 
-Options:
-- `--dry-run` - Preview upgrades without applying
-- `--force` - Ignore peer dependency conflicts
+- `--dry-run`: Show what would be upgraded without making changes
+- `--force`: Apply upgrades even with peer dependency conflicts
 
-## Examples
+═══════════════════════════════════════════════════════════════
+║  Dependency Upgrade Analyzer                                 ║
+═══════════════════════════════════════════════════════════════
 
-### Adding a new script
-```bash
-$ nph add
-? Type Command: dev
-? Script to execute: nodemon ./src/index.js
-? Confirm adding dev ⟶ nodemon ./src/index.js script to package.json ? Yes
-▍ Script added successfully ✔
-```
-
-### Verifying dependencies
-```bash
-$ nph dep
-──────────────────────────────────────
-│ Dependency Verifier │
-──────────────────────────────────────
-
-→ Checking 25 dependencies...
-
-✓ lodash@^4.17.21
-✓ express@^4.18.2
-✗ react@^16.14.0
-  Version ^16.14.0 does not exist for react
-  Closest version available: ^18.2.0
-
-Run with --fix-all to fix all issues
-```
-
-### Upgrading packages
-```bash
-$ nph upgrade
-──────────────────────────────────────
-│ Dependency Upgrade Analyzer │
-──────────────────────────────────────
-
-→ Analyzing 25 dependencies for safe upgrades...
-
-Upgrade Analysis Results
+▸ Analyzing 42 dependencies for safe upgrades...
 
 Upgrades available:
 
-→ react
-  Current: ^16.14.0
-  Latest: ^18.2.0
+▸ lodash
+  Current: ^4.17.15
+  Latest: ^4.17.21
 
-→ eslint
-  Current: ^7.32.0
-  Latest: ^8.57.0
-
-Apply 2 upgrade(s)? Yes
-✓ package.json updated successfully
-→ Run npm install to install updates
+▸ typescript
+  Current: ^4.5.0
+  Latest: ^5.2.2
+  ⚠ Peer dependency warnings:
+    eslint-plugin-import requires typescript@^4.5.0
 ```
 
 ## Configuration

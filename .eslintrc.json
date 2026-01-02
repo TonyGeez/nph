@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "deprecation"
+  ],
+  "rules": {
+    "deprecation/deprecation": "error"
+  }
+}

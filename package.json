@@ -1,0 +1,40 @@
+{
+  "name": "nph",
+  "version": "1.1.7",
+  "description": "A CLI tool for managing Node.js dependencies with ease",
+  "type": "module",
+  "main": "bin/nph.js",
+  "bin": {
+    "nph": "./bin/nph.js"
+  },
+  "scripts": {
+    "install": "npm install -g ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TonyGeez/nph.git"
+  },
+  "keywords": [
+    "cli",
+    "npm",
+    "package.json",
+    "scripts",
+    "dependencies",
+    "upgrade",
+    "deprecations"
+  ],
+  "author": "Antoine R. <TonyGeez>",
+  "license": "MIT",
+  "homepage": "https://github.com/TonyGeez/nph#readme"
+  "dependencies": {
+    "commander": "^11.1.0",
+    "semver": "^7.7.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-plugin-deprecation": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
